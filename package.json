@@ -1,0 +1,10 @@
+{
+  "name": "dragonBones",
+  "version": "1.0.0",
+  "main": "./release/dragonBones.js",
+  "types":"./release/dragonBones.d.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.35.2"
+  }
+}
