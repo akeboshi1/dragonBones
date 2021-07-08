@@ -1,10 +1,17 @@
 {
-  "name": "dragonBones",
-  "version": "1.0.0",
-  "main": "./release/dragonBones.js",
-  "types":"./release/dragonBones.d.ts",
-  "license": "MIT",
+  "name": "dragonbones-phaser",
+  "version": "5.6.2",
+  "main": "./out/dragonBones.min.js",
+  "types": "./out/dragonBones.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "ugly": "uglifyjs ./out/dragonBones.js -o ./out/dragonBones.min.js -m"
+  },
   "devDependencies": {
-    "webpack": "^4.35.2"
+    "typescript": "^2.4.2",
+    "uglify-js": "^3.0.26"
+  },
+  "dependencies": {
+    "dtslint": "^0.3.0"
   }
 }
