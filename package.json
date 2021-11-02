@@ -1,6 +1,6 @@
 {
-  "name": "dragonbones-phaser",
-  "version": "5.6.2",
+  "name": "tooqingdragonbones",
+  "version": "0.1.0",
   "main": "./out/dragonBones.min.js",
   "types": "./out/dragonBones.d.ts",
   "scripts": {
