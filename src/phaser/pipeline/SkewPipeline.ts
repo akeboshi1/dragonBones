@@ -38,6 +38,7 @@ namespace dragonBones.phaser.pipeline {
             let y = -sprite.displayOriginY + frameY;
 
             if (sprite.isCropped) {
+                // @ts-ignore
                 const crop = sprite["_crop"];
 
                 if (crop.flipX !== sprite.flipX || crop.flipY !== sprite.flipY)
@@ -62,8 +63,7 @@ namespace dragonBones.phaser.pipeline {
             let flipY = 1;
 
             if (sprite.flipX) {
-                if (!customPivot)
-                {
+                if (!customPivot) {
                     x += (-frame.realWidth + (displayOriginX * 2));
                 }
                 flipX = -1;
@@ -75,10 +75,8 @@ namespace dragonBones.phaser.pipeline {
             // TS note: WebGLTexture is a real standard object, with no fixed fields.
             // I guess TextureManager (?) imprints the flipY property onto it?
             // Anyway, this confuses TS.
-            if (sprite.flipY || (frame.source.isGLTexture && (texture as any).flipY))
-            {
-                if (!customPivot)
-                {
+            if (sprite.flipY || (frame.source.isGLTexture && (texture as any).flipY)) {
+                if (!customPivot) {
                     y += (-frame.realHeight + (displayOriginY * 2));
                 }
 
@@ -87,7 +85,7 @@ namespace dragonBones.phaser.pipeline {
 
 
             // This override exists only for this line: in the original, this call doesn't respect skew; this one should.
-            spriteMatrix.applyITRSC(sprite.x, sprite.y, sprite.rotation, sprite.scaleX * flipX, sprite.scaleY * flipY, sprite["skewX"] || 0, sprite["skewY"] || 0);
+            spriteMatrix.applyITRS(sprite.x, sprite.y, sprite.rotation, sprite.scaleX * flipX, sprite.scaleY * flipY, sprite["skewX"] || 0, sprite["skewY"] || 0);
 
             // TS note: Matrix is a private field -- not protected etc -- so this needs casting to extract.
             camMatrix.copyFrom((camera as any).matrix);
@@ -110,7 +108,7 @@ namespace dragonBones.phaser.pipeline {
 
             const xw = x + frameWidth;
             const yh = y + frameHeight;
-            const roundPixels = camera.roundPixels;
+            // const roundPixels = camera.roundPixels;
 
 
             let tx0 = calcMatrix.getX(x, y);
@@ -126,7 +124,7 @@ namespace dragonBones.phaser.pipeline {
             let ty3 = calcMatrix.getY(xw, y);
 
             let getTint = Phaser.Renderer.WebGL.Utils.getTintAppendFloatAlpha;
-            let cameraAlpha = camera.alpha;
+            // let cameraAlpha = camera.alpha;
 
             // TS Note: _alphaTL etc are private on the Alpha component, so TS gets confused about their use here.
             let spriteAlpha = sprite as any;
@@ -135,8 +133,7 @@ namespace dragonBones.phaser.pipeline {
             const tintBL = getTint(sprite.tintBottomLeft, camera.alpha * spriteAlpha._alphaBL);
             const tintBR = getTint(sprite.tintBottomRight, camera.alpha * spriteAlpha._alphaBR);
 
-            if (this.shouldFlush(6))
-            {
+            if (this.shouldFlush(6)) {
                 this.flush();
             }
 

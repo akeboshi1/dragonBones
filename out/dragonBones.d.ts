@@ -6267,20 +6267,13 @@ declare namespace dragonBones.phaser.util {
 }
 declare namespace dragonBones.phaser.util {
     class TransformMatrix extends Phaser.GameObjects.Components.TransformMatrix {
-        decomposedMatrix: any;
         constructor(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number);
-        decomposeMatrix(): any;
         static applyITRSC(tempMatrix: Phaser.GameObjects.Components.TransformMatrix, x: number, y: number, rotation: number, scaleX: number, scaleY: number, skewX: number, skewY: number): Phaser.GameObjects.Components.TransformMatrix;
-        applyITRSC(x: number, y: number, rotation: number, scaleX: number, scaleY: number, skewX: number, skewY: number): this;
-        readonly skewX: number;
-        readonly skewY: number;
         skew(sx: number, sy: number): this;
     }
 }
 declare namespace dragonBones.phaser.display {
     class DisplayContainer extends Phaser.GameObjects.Container {
-        private _skewX;
-        private _skewY;
         private tempTransformMatrix;
         constructor(scene: Phaser.Scene, x?: number, y?: number, children?: Phaser.GameObjects.GameObject[]);
         pointToContainer(source: Phaser.Math.Vector2 | Phaser.Geom.Point | {

@@ -25,7 +25,7 @@
 		"out"
 	],
 	"files": [
-		"./types/phaser.d.ts",
+		"./types/phaser3.d.ts",
 
 		"./src/dragonBones/core/DragonBones.ts",
 		"./src/dragonBones/core/BaseObject.ts",

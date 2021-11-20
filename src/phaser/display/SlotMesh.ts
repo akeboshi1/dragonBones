@@ -5,8 +5,8 @@ namespace dragonBones.phaser.display {
         fakeUvs: Uint16Array;
 
         constructor(scene: Phaser.Scene, x: number, y: number, vertices: number[], uv: number[], colors: number[], alphas: number[], texture: string, frame?: string | integer) {
-            const containsZ = null;
-            const normals = null;
+            let containsZ = null;
+            let normals = null;
             super(scene, x, y, texture, frame, vertices, uv, containsZ, normals, colors, alphas);
             this.setPipeline("SkewPipeline");  // use customized pipeline
             this.hideCCW = false;

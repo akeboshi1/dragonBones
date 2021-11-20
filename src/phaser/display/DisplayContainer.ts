@@ -1,10 +1,7 @@
 namespace dragonBones.phaser.display {
     // this class will be refactored due to official Container will be removed soon.
     export class DisplayContainer extends Phaser.GameObjects.Container {
-        private _skewX = 0;
-        private _skewY = 0;
         private tempTransformMatrix: util.TransformMatrix;
-
         constructor(scene: Phaser.Scene, x?: number, y?: number, children?: Phaser.GameObjects.GameObject[]) {
             super(scene, x, y, children);
             this.tempTransformMatrix = new util.TransformMatrix();
@@ -20,8 +17,8 @@ namespace dragonBones.phaser.display {
 
             const tempMatrix = this.tempTransformMatrix;
 
-            //  No need to loadIdentity because applyITRSC overwrites every value anyway
-            tempMatrix.applyITRSC(this.x, this.y, this.rotation, this.scaleX, this.scaleY, this._skewX, this._skewY);
+            //  No need to loadIdentity because applyITRS overwrites every value anyway
+            tempMatrix.applyITRS(this.x, this.y, this.rotation, this.scaleX, this.scaleY, this.skewX, this.skewY);
 
             tempMatrix.invert();
 
@@ -31,5 +28,5 @@ namespace dragonBones.phaser.display {
         }
     }
 
-    util.extendSkew(DisplayContainer);  // skew mixin
+    // util.extendSkew(DisplayContainer);  // skew mixin
 }

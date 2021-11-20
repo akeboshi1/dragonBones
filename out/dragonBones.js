@@ -15199,21 +15199,21 @@ var dragonBones;
              */
             util.Skew = {
                 getSkewX: function () {
-                    return this._skewX || 0;
+                    return this.skewX || 0;
                 },
                 setSkewX: function (v) {
-                    this._skewX = v;
+                    this.skewX = v;
                 },
                 getSkewY: function () {
-                    return this._skewY || 0;
+                    return this.skewY || 0;
                 },
                 setSkewY: function (v) {
-                    this._skewY = v;
+                    this.skewY = v;
                 },
                 setSkew: function (sx, sy) {
                     sy = sy === void 0 ? sx : sy;
-                    this._skewX = sx;
-                    this._skewY = sy;
+                    this.skewX = sx;
+                    this.skewY = sy;
                 },
                 getLocalTransformMatrix: function (tempMatrix) {
                     if (tempMatrix === undefined) {
@@ -15271,19 +15271,19 @@ var dragonBones;
         (function (util) {
             var TransformMatrix = /** @class */ (function (_super) {
                 __extends(TransformMatrix, _super);
+                // decomposedMatrix: any;  // Override the `object` from phaser.
                 function TransformMatrix(a, b, c, d, tx, ty) {
-                    var _this = _super.call(this, a, b, c, d, tx, ty) || this;
-                    _this.decomposedMatrix.skewX = _this.skewX;
-                    _this.decomposedMatrix.skewY = _this.skewY;
-                    return _this;
+                    return _super.call(this, a, b, c, d, tx, ty) || this;
+                    // this.decomposedMatrix.skewX = this.skewX;
+                    // this.decomposedMatrix.skewY = this.skewY;
                 }
                 // Override phaser's decomposition to also track skew.
-                TransformMatrix.prototype.decomposeMatrix = function () {
-                    var decomposedMatrix = this.decomposeMatrix();
-                    decomposedMatrix.skewX = this.skewX;
-                    decomposedMatrix.skewY = this.skewY;
-                    return decomposedMatrix;
-                };
+                // decomposeMatrix(): any {
+                //     let decomposedMatrix = this.decomposeMatrix();
+                //     decomposedMatrix.skewX = this.skewX;
+                //     decomposedMatrix.skewY = this.skewY;
+                //     return decomposedMatrix;
+                // }
                 TransformMatrix.applyITRSC = function (tempMatrix, x, y, rotation, scaleX, scaleY, skewX, skewY) {
                     tempMatrix.a = Math.cos(rotation - skewY) * scaleX;
                     tempMatrix.b = Math.sin(rotation - skewY) * scaleX;
@@ -15294,34 +15294,26 @@ var dragonBones;
                     return tempMatrix;
                 };
                 // Provide additional parameters for skew to phaser's applyITRS (as new call, due to changed signature).
-                TransformMatrix.prototype.applyITRSC = function (x, y, rotation, scaleX, scaleY, skewX, skewY) {
-                    this.a = Math.cos(rotation - skewY) * scaleX;
-                    this.b = Math.sin(rotation - skewY) * scaleX;
-                    this.c = -Math.sin(rotation + skewX) * scaleY;
-                    this.d = Math.cos(rotation + skewX) * scaleY;
-                    this.tx = x;
-                    this.ty = y;
-                    return this;
-                };
-                Object.defineProperty(TransformMatrix.prototype, "skewX", {
-                    // Read the skew parameter out.
-                    get: function () {
-                        return -Math.atan2(-this.c, this.d);
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(TransformMatrix.prototype, "skewY", {
-                    // Read the skew parameter out.
-                    get: function () {
-                        return Math.atan2(this.b, this.a);
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
+                // applyITRS(x: number, y: number, rotation: number, scaleX: number, scaleY: number, skewX: number, skewY: number): this {
+                //     // this.a = Math.cos(rotation - skewY) * scaleX;
+                //     // this.b = Math.sin(rotation - skewY) * scaleX;
+                //     // this.c = -Math.sin(rotation + skewX) * scaleY;
+                //     // this.d = Math.cos(rotation + skewX) * scaleY;
+                //     // this.tx = x;
+                //     // this.ty = y;
+                //     return super.applyITRS(x, y, rotation, scaleX, scaleY, skewX, skewY);
+                // }
+                // Read the skew parameter out.
+                // get skewX(): number {
+                //     return -Math.atan2(-this.c, this.d);
+                // }
+                // // Read the skew parameter out.
+                // get skewY(): number {
+                //     return Math.atan2(this.b, this.a);
+                // }
                 // Set the skew parameters (by analogy with `rotate`, etc).
                 TransformMatrix.prototype.skew = function (sx, sy) {
-                    this.applyITRSC(this.tx, this.ty, this.rotation, this.scaleX, this.scaleY, sx, sy);
+                    this.applyITRS(this.tx, this.ty, this.rotation, this.scaleX, this.scaleY, sx, sy);
                     return this;
                 };
                 return TransformMatrix;
@@ -15341,8 +15333,6 @@ var dragonBones;
                 __extends(DisplayContainer, _super);
                 function DisplayContainer(scene, x, y, children) {
                     var _this = _super.call(this, scene, x, y, children) || this;
-                    _this._skewX = 0;
-                    _this._skewY = 0;
                     _this.tempTransformMatrix = new phaser.util.TransformMatrix();
                     return _this;
                 }
@@ -15352,8 +15342,8 @@ var dragonBones;
                     if (this.parentContainer)
                         return this.parentContainer.pointToContainer(source, output);
                     var tempMatrix = this.tempTransformMatrix;
-                    //  No need to loadIdentity because applyITRSC overwrites every value anyway
-                    tempMatrix.applyITRSC(this.x, this.y, this.rotation, this.scaleX, this.scaleY, this._skewX, this._skewY);
+                    //  No need to loadIdentity because applyITRS overwrites every value anyway
+                    tempMatrix.applyITRS(this.x, this.y, this.rotation, this.scaleX, this.scaleY, this.skewX, this.skewY);
                     tempMatrix.invert();
                     tempMatrix.transformPoint(source.x, source.y, output);
                     return output;
@@ -15361,7 +15351,7 @@ var dragonBones;
                 return DisplayContainer;
             }(Phaser.GameObjects.Container));
             display.DisplayContainer = DisplayContainer;
-            phaser.util.extendSkew(DisplayContainer); // skew mixin
+            // util.extendSkew(DisplayContainer);  // skew mixin
         })(display = phaser.display || (phaser.display = {}));
     })(phaser = dragonBones.phaser || (dragonBones.phaser = {}));
 })(dragonBones || (dragonBones = {}));
@@ -15981,6 +15971,7 @@ var dragonBones;
                     var x = -sprite.displayOriginX + frameX;
                     var y = -sprite.displayOriginY + frameY;
                     if (sprite.isCropped) {
+                        // @ts-ignore
                         var crop = sprite["_crop"];
                         if (crop.flipX !== sprite.flipX || crop.flipY !== sprite.flipY)
                             frame.updateCropUVs(crop, sprite.flipX, sprite.flipY);
@@ -16016,7 +16007,7 @@ var dragonBones;
                         flipY = -1;
                     }
                     // This override exists only for this line: in the original, this call doesn't respect skew; this one should.
-                    spriteMatrix.applyITRSC(sprite.x, sprite.y, sprite.rotation, sprite.scaleX * flipX, sprite.scaleY * flipY, sprite["skewX"] || 0, sprite["skewY"] || 0);
+                    spriteMatrix.applyITRS(sprite.x, sprite.y, sprite.rotation, sprite.scaleX * flipX, sprite.scaleY * flipY, sprite["skewX"] || 0, sprite["skewY"] || 0);
                     // TS note: Matrix is a private field -- not protected etc -- so this needs casting to extract.
                     camMatrix.copyFrom(camera.matrix);
                     if (parentTransformMatrix) {
@@ -16034,7 +16025,7 @@ var dragonBones;
                     camMatrix.multiply(spriteMatrix, calcMatrix);
                     var xw = x + frameWidth;
                     var yh = y + frameHeight;
-                    var roundPixels = camera.roundPixels;
+                    // const roundPixels = camera.roundPixels;
                     var tx0 = calcMatrix.getX(x, y);
                     var ty0 = calcMatrix.getY(x, y);
                     var tx1 = calcMatrix.getX(x, yh);
@@ -16044,7 +16035,7 @@ var dragonBones;
                     var tx3 = calcMatrix.getX(xw, y);
                     var ty3 = calcMatrix.getY(xw, y);
                     var getTint = Phaser.Renderer.WebGL.Utils.getTintAppendFloatAlpha;
-                    var cameraAlpha = camera.alpha;
+                    // let cameraAlpha = camera.alpha;
                     // TS Note: _alphaTL etc are private on the Alpha component, so TS gets confused about their use here.
                     var spriteAlpha = sprite;
                     var tintTL = getTint(sprite.tintTopLeft, camera.alpha * spriteAlpha._alphaTL);

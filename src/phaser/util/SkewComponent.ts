@@ -7,21 +7,21 @@ namespace dragonBones.phaser.util {
      */
     export const Skew = {
         getSkewX(): number {
-            return this._skewX || 0;
+            return this.skewX || 0;
         },
         setSkewX(v: number) {
-            this._skewX = v;
+            this.skewX = v;
         },
         getSkewY(): number {
-            return this._skewY || 0;
+            return this.skewY || 0;
         },
         setSkewY(v: number) {
-            this._skewY = v;
+            this.skewY = v;
         },
         setSkew(sx: number, sy?: number): void {
             sy = sy === void 0 ? sx : sy;
-            this._skewX = sx;
-            this._skewY = sy;
+            this.skewX = sx;
+            this.skewY = sy;
         },
         getLocalTransformMatrix(tempMatrix) {
             if (tempMatrix === undefined) { tempMatrix = new TransformMatrix(); }
