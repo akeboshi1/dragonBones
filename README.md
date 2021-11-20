@@ -1,20 +1,16 @@
-## How to build
-* Clone or download [DragonBonesJS](https://github.com/DragonBones/DragonBonesJS/).
-* Install [Node.JS](https://nodejs.org/).
-* Open `DragonBonesJS/Phaser/3.x/` in command.
-* $ `npm install`
-* $ `npm run build`
 
-## Make sure project structure like this:
-```
-Your project
-    |-- types
-        |-- phaser.d.ts
-    |-- node_modules
-        |-- ...
-    |-- out
-        |-- ...
-    |-- src
-        |-- ...
-    |-- ...
-```
+# 项目实际地址：https://github.com/ApowoGames/dragonbones
+# clone地址：git@github.com:ApowoGames/dragonbones.git
+
+# 更新步骤：
+
+1. git fetch upstream
+2. git checkout fork350
+3. git merge upstream/fork350
+4. git commit ...
+5. git push
+6. git push gitlab fork350
+
+# DragonBones JavaScript / TypeScript Runtime
+[中文 README](./README-zh_CN.md)
+## [DragonBones common library](./DragonBones/)
